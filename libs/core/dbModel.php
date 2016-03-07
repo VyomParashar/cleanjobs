@@ -29,7 +29,7 @@ class parentDbModel
 		$res = mysqli_query($dbConn, $qrys);
 		if(!$res)
 		{
-			echo mysqli_error($dbConn) . ' <====> ' . $qrys;
+			echo mysqli_error($dbConn) . ' <====> ' . $qrys;exit;
 		}
 		return $res;
 	}

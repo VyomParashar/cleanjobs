@@ -2,11 +2,11 @@
 class homeModel extends dbModel
 {
 	/* get admin details according to username and password */
-	function adminLogin($email, $pwd)
+	function userLogin($email, $pwd, $u_type = 3)
 	{
 		$email = $this->addSlashesINP($email);
 		$pwd = $this->addSlashesINP($pwd);
-		return $this->resultToArray("select * from users where (email='".$email."' or (username='".$email."' and u_type=0)) and pwd='".$pwd."' and status='1' and u_type <= 1");
+		return $this->resultToArray("select * from users where email='" . $email . "' and pwd='" . $pwd . "' and status='1' and u_type='" . $u_type . "'");
 	}
 	
 	function getUserByEmail($email = '')

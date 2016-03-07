@@ -6,3 +6,8 @@ if($_GET['section'] == 'verify')
 	$_GET['action'] = 'verify';
 	$_GET['section'] = 'home';
 }
+else if($_GET['section'] == 'login')
+{
+	$_GET['action'] = 'login';
+	$_GET['section'] = 'home';
+}

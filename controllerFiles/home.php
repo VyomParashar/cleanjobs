@@ -4,8 +4,8 @@ class home extends main
 	/* To redirect to login page if not loggedin */		
 	function beforeAction()
 	{
-		if($this->readSession('admin_login')=='1')
-			$this->redirect($this->appUrl(array('section'=>'account')));
+		if($this->readSession('front_login')=='1')
+			$this->redirect($this->appUrl(array('section'=>'account', 'action' => 'jobs')));
 	}
 	
 	function index()
@@ -79,7 +79,7 @@ class home extends main
 			if($uData['id'] > 0)
 			{
 				if(trim($this->pdata['pwd']) == '')
-					$toRep['errMsg'] = 'Please provide valid email.';
+					$toRep['errMsg'] = 'Please provide password.';
 				else if($this->pdata['pwd'] != $this->pdata['cpwd'])
 					$toRep['errMsg'] = 'Password does not match.';
 				else if(trim($this->pdata['comp_name']) == '')
@@ -114,9 +114,48 @@ class home extends main
 		}
 	}
 	
+	function createSession($user)
+	{
+		$this->writeSession('front_id',$user['id']);
+		$this->writeSession('front_name',$user['name']);
+		$this->writeSession('front_lname',$user['last_name']);
+		$this->writeSession('front_type',$user['u_type']);
+		$this->writeSession('front_email',$user['email']);
+		$this->writeSession('front_login','1');
+		$this->writeSession('front_created',$user['created']);
+	}
+	
 	function login()
 	{
 		$this->set('title','User Login');
+		$this->set('layout','front');
 		
+		if($this->pdata['login_form'] == 'yes')
+		{
+			$toRep =  array('fine' => 0, 'errMsg' => '');
+			$res = $this->db->userLogin(trim($_POST['email']),md5(trim($_POST['pwd'])));
+			
+			if(trim($this->pdata['email']) == '')
+				$toRep['errMsg'] = 'Please provide valid email.';
+			if(trim($this->pdata['pwd']) == '')
+				$toRep['errMsg'] = 'Please provide password.';
+			else
+			{
+				$email = trim($_POST['email']);
+				$pwd = md5(trim($_POST['pwd']));
+				$res = $this->db->userLogin($email, $pwd, 3);
+				if(count($res)>0)
+				{
+					$this->createSession($res[0]);
+					$toRep['fine'] = 1;
+					$toRep['trgt'] = $this->appUrl(array('section'=>'account', 'action'=>'jobs'));
+				}
+				else
+					$toRep['errMsg'] = 'Wrong email or password.';
+			}
+			
+			echo json_encode($toRep);
+			exit;
+		}
 	}
 }

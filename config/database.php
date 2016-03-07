@@ -17,5 +17,7 @@ define('EMAIL_FROM','noreply@cleansimple.co');
 global $appTables;
 $appTables = array(
 'adminQus' => 'admin_qus',
-'users' => 'users'
+'users' => 'users',
+'jobQus' => 'job_qus',
+'jobs' => 'jobs'
 );

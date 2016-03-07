@@ -11,8 +11,6 @@ class admin extends main
 		$this->writeSession('admin_type',$user['u_type']);
 		$this->writeSession('admin_email',$user['email']);
 		$this->writeSession('admin_cid',$user['cust_id']);
-		$this->writeSession('admin_ins_flag',$user['ins_flag']);
-		$this->writeSession('admin_tzone',$user['tzone']);
 		$this->writeSession('admin_login','1');
 		$this->writeSession('admin_created',$user['created']);
 		if($user['u_type'] > 0 && $user['cust_id'])
@@ -82,7 +80,6 @@ class admin extends main
 		else
 		{
 			$res = $this->db->adminLogin(trim($_POST['email']),md5(trim($_POST['pwd'])));
-			
 			if(count($res)>0)
 			{
 				if($_POST['crem'] == 'yes')
