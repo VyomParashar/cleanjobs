@@ -12,12 +12,15 @@ if(mysqli_connect_errno())
 // security salt
 define('SEC_SALT', "ŸÐ —“W†Óü÷I½Q-+=jRocW");
 define('ADMIN_EMAIL','akash5003@gmail.com');
-define('EMAIL_FROM','noreply@cleansimple.co');
+define('EMAIL_FROM','noreply@cleaningjobs.co');
 
 global $appTables;
 $appTables = array(
 'adminQus' => 'admin_qus',
 'users' => 'users',
 'jobQus' => 'job_qus',
-'jobs' => 'jobs'
+'jobs' => 'jobs',
+'applicants' => 'applicants',
+'applicantsQus' => 'applicants_qus',
+'blockedApplicants' => 'blocked_applicants'
 );

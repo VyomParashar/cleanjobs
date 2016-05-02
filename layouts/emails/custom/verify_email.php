@@ -10,6 +10,6 @@ Please click the link below to verify your email address to continue</p>
 <?php echo $email_ddata['verifyLink']?></p>
 <p>&nbsp;</p>
 <hr />
-<p>Powered by <a href="<?php echo $email_ddata['home_url']?>" style="background-color:#1E6C92;padding:5px 8px;text-transform:uppercase;font-size:13px;margin-left:7px;color:#fff;">Clean Simple</a></p>
+<p>Powered by <a href="http://www.sweptworks.com" target="_blank"><img src="<?php echo IMAGES?>logo/swept_blue.png" style="width:60px;vertical-align:middle;" alt="Swept" title="Swept" /></a></p>
 <p>&nbsp;</p>
 </div>

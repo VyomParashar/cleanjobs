@@ -421,6 +421,26 @@ function singleChklist()
 	}
 }
 
+function gridReq(urlSend,dataToSend,container_selector)
+{
+	jQuery('#mask').show();
+	
+	jQuery.ajax({
+			type : 'get',
+			url : urlSend,
+			dataType : 'html',
+			data: dataToSend,
+			success : function(data)
+			{
+				jQuery('#mask').hide();
+				if(typeof(container_selector)!='undefined' && container_selector!='')
+					jQuery(container_selector).html(data);
+				else
+					jQuery('#gridContent').html(data);
+			}
+		});
+}
+
 jQuery(document).ready(function(e) {
 	jQuery('.tab_container .tabs_cont a').click(function(e) {
 		tabDataOnAjax(this);
@@ -441,6 +461,36 @@ jQuery(document).ready(function(e) {
 			}
 		});
 	});
+	window.confirm = function (message, callback, caption) {
+			caption = caption || 'Confirmation'
+		
+			jQuery(document.createElement('div')).attr({
+				title: caption,
+					'class': 'dialog'
+			}).html(message).dialog({
+				my: "center bottom",
+ at: "center top",
+				dialogClass: 'fixed',
+				buttons: {
+					"Yes": function () {
+						jQuery(this).dialog('close');
+						callback();
+						return true;
+					},
+						"No": function () {
+						jQuery(this).dialog('close');
+						return false;
+					}
+				},
+				close: function () {
+					jQuery(this).remove();
+				},
+				draggable: false,
+				modal: true,
+				resizable: false,
+				width: 'auto'
+			});
+		};
 	
 	jQuery('.formToSubmit').submit(function(e) {
 		$('#waiting').show();
@@ -456,7 +506,7 @@ jQuery(document).ready(function(e) {
 				$('#waiting').hide();
 				if(typeof(data.fineMsg) != 'undefined' && data.fineMsg != '')
 				{
-					jQuery(formObj).html('<h5 class="msg">' + data.fineMsg + '</h5>');
+					jQuery(formObj).html('<h3 class="msg">' + data.fineMsg + '</h3>');
 				}
 				else
 					$('#message[for=fmsg]').removeClass().addClass('error').html(data.errMsg).show();

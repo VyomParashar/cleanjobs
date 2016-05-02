@@ -23,4 +23,10 @@ class homeModel extends dbModel
 		$user = $this->getRow('users','where id="'.$userId.'" and token="'.$this->addSlashesINP($token).'"');
 		return $user;
 	}
+	
+	function getUserByTokenEmail($email = '', $token = '')
+	{
+		$user = $this->getRow('users','where email="'.$this->addSlashesINP($email).'" and token="'.$this->addSlashesINP($token).'"');
+		return $user;
+	}
 }

@@ -1,9 +1,16 @@
 <header class="account">
 	<div class="inner_header">
-		<div class="hleft"><a href="<?php echo $appObj->appUrl();?>"><img width="51" src="<?php echo IMAGES?>front/logo.png" alt="Clean Simple" /> <span>cleaningjobs.co</span></a></div>
-		<div class="hright">
+		<div class="hleft"><a href="<?php echo $appObj->appUrl();?>"><img width="190" src="<?php echo IMAGES?>front/cleaningjobs_logo.png" alt="Clean Simple" /> <?php /*?><span>cleaningjobs.co</span><?php */?></a></div>
+		<div class="hright"><?php
+		if($appObj->readSession('front_login')=='1'){?>
 			<a href="<?php echo $appObj->appUrl(array('section' => 'account', 'action' => 'jobs'))?>">Jobs</a>
 			<a href="<?php echo $appObj->appUrl(array('section' => 'account', 'action' => 'logout'))?>">Logout</a>
+			<a class="sett" href="<?php echo $appObj->appUrl(array('section' => 'account', 'action' => 'settings'))?>"><img src="<?php echo IMAGES?>front/gear-icon.png" alt="" /></a>
+		<?php
+		}else{?>
+			<a class="hdSign" href="<?php echo $appObj->appUrl(array('section'=>'login'))?>">Sign In</a>
+		<?php
+		}?>
 		</div>
 	</div>
 </header>

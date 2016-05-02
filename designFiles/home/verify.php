@@ -6,8 +6,49 @@ if($uData['id'] > 0){?>
 	'var2' => $appObj->gdata['var2'])))?>" method="post">
 		<div class="errMsg" style="width:480px;text-align:center;"></div>
 		<div class="formRow">
-			<label class="lb">Email:</label> <?php echo $uData['email']?>
+			<label class="lb">First Name:</label>
+			<input type="text" class="req" name="name" value="<?php echo $curUser['name']?>" />
 		</div>
+		<div class="formRow">
+			<label class="lb">Last Name:</label>
+			<input type="text" class="req" name="last_name" value="<?php echo $curUser['last_name']?>" />
+		</div>
+		<div class="formRow">
+			<label class="lb">Company Name:</label>
+			<input type="text" name="comp_name" placeholder="Company Name" />
+		</div>
+		<div class="formRow">
+			<label class="lb">Country:</label>
+			<select class="des req" name="cntry">
+			<option value="">- Select -</option><?php
+			foreach($appObj->countries as $cntry)
+			{
+				echo '<option';
+				if($cntry == $curUser['cntry'])
+					echo ' selected';
+				echo '>' . $cntry . '</option>';
+			}
+			?></select>
+		</div>
+		<div class="formRow">
+			<label class="lb">State/Province:</label>
+			<select class="des req" name="state">
+				<option value="">- Select -</option><?php
+				foreach($appObj->usaStates as $state)
+				{
+					echo '<option class="usa">' . $state . '</option>';
+				}
+				foreach($appObj->canadaStates as $state)
+				{
+					echo '<option class="canada">' . $state . '</option>';
+				}
+			?></select>
+		</div>
+		<div class="formRow">
+			<label class="lb">City/Town:</label>
+			<input type="text" class="req" name="city" />
+		</div>
+		<div>&nbsp;</div>
 		<div class="formRow">
 			<label class="lb">Password:</label>
 			<input type="password" name="pwd" placeholder="Password" />
@@ -15,10 +56,6 @@ if($uData['id'] > 0){?>
 		<div class="formRow">
 			<label class="lb">Confirm Password:</label>
 			<input type="password" name="cpwd" placeholder="Confirm Password" /> <span class="msg_pwd">Password do not match</span>
-		</div>
-		<div class="formRow">
-			<label class="lb">Company Name:</label>
-			<input type="text" name="comp_name" placeholder="Company Name" />
 		</div>
 		<div class="formRow">
 			<label class="lb">cleaningjobs.co/:</label>
@@ -37,10 +74,9 @@ if($uData['id'] > 0){?>
 }?>
 </div>
 <script type="text/javascript">
-jQuery(document).ready(function(e) {
-	jQuery('input[name=comp]').keyup(function(e) {
-		var curComp = jQuery(this).val();
-		jQuery('.msg_web').hide();
+function keyupComp(curComp)
+{
+	jQuery('.msg_web').hide();
 		if(curComp == '')
 		{
 			return;
@@ -61,6 +97,20 @@ jQuery(document).ready(function(e) {
 					jQuery('.msg_web').removeClass('chk').html('Not Available').show();
 			}
 		});
+}
+/**/
+jQuery(document).ready(function(e) {
+	jQuery('input[name=comp]').keyup(function(e) {
+		var curComp = jQuery(this).val();
+		var b = curComp.replace(/[^a-z0-9]/gi,'');
+		jQuery('input[name=comp]').val(b);
+		keyupComp(b);
+	});
+	jQuery('input[name=comp_name]').keyup(function(e) {
+		var curComp = jQuery(this).val();
+		var b = curComp.replace(/[^a-z0-9]/gi,'');
+		jQuery('input[name=comp]').val(b);
+		keyupComp(b);
 	});
 	jQuery('#acc_reg').submit(function(e){
 		jQuery('.msg_pwd,.msg_web').hide();
@@ -101,5 +151,30 @@ jQuery(document).ready(function(e) {
 		
 		return false;
 	});
+});
+function chkCntrySt(cntry)
+{
+	if(cntry == 'United States')
+	{
+		jQuery('.usa').show();
+		jQuery('.canada').hide();
+	}
+	else if(cntry == 'Canada')
+	{
+		jQuery('.usa').hide();
+		jQuery('.canada').show();
+	}
+	else
+	{
+		jQuery('.usa,.canada').hide();
+		jQuery('select[name=state]').val('');
+	}
+}
+jQuery(document).ready(function(e) {
+	jQuery('select[name=cntry]').change(function(e) {
+		var cntry = jQuery(this).val();
+		chkCntrySt(cntry);
+	});
+	chkCntrySt('<?php echo $curUser['cntry']?>');
 });
 </script>

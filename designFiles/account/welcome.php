@@ -1,4 +1,4 @@
-<h1 class="account_h1"> &nbsp; &nbsp; Your account has been created!</h1>
+<?php if($appObj->gdata['var1'] == 'new'){ ?><h1 class="account_h1"> &nbsp; &nbsp; <?php echo 'Your account has been created!';?></h1><?php }?>
 <div class="welcome_cont" style="text-align:center;">
 	<div class="wel_txt">
 		<div class="wel_txt_inn">
@@ -10,8 +10,8 @@
 		</div>
 	</div>
 	<p>&nbsp;</p>
-	<p>Would you like to create your first job posting now?</p>
-	<p><a class="sub_butt" href="<?php echo $appObj->appUrl(array('section' => 'account', 'account' => 'job-post'))?>">Yes</a></p>
+	<p><?php if($appObj->gdata['var1'] == 'new'){ echo 'Would you like to create your first job posting now?'; }else{ echo 'Would you like to create your job posting now?'; }?></p>
+	<p><a class="sub_butt" href="<?php echo $appObj->appUrl(array('section' => 'account', 'action' => 'job-post'))?>">Yes</a></p>
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>

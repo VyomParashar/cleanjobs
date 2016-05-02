@@ -275,7 +275,7 @@ class parentMain
 	// For email validation return true for valid e-mail
 	function isValidEmail($email)
 	{
-		$pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$";
+		$pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$";
 		if (eregi($pattern, trim($email)))
 		{
 			return true;
