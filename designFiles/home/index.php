@@ -9,7 +9,7 @@ You advertise the position and we'll send you the best applicants.</strong>
 </div>
 <div class="home_email ftrans">
 	<form id="reg_email" action="<?php echo $appObj->appUrl(array('section' => 'home', 'action' => 'submitEmail'))?>" method="post">
-		<div class="errMsg" style="width:480px;text-align:center;"></div>
+		<div class="errMsg" style="text-align:center;"></div>
 		<input type="email" name="email" placeholder="Add your email" />
 		<input type="submit" value="Create your free account" />
 	</form>

@@ -15,7 +15,10 @@
 		<div class="ot_info">
 			<?php echo (((trim($jobDet['city']) == '')?'':$jobDet['city']) . ', ') . (((trim($jobDet['state']) == '')?'':$jobDet['state']) . ', ') . $jobDet['cntry']?><br />
 			<a href="mailto:<?php echo $jobDet['email']?>"><?php echo $jobDet['email']?></a><br />
-			<a href="tel:<?php echo $jobDet['phn']?>"><?php echo $jobDet['phn']?></a>
+			<a href="tel:<?php echo $jobDet['phn']?>"><?php echo $jobDet['phn']?></a><?php
+			if(trim($jobDet['resume']) != ''){
+            ?><a target="_blank" href="<?php echo IMAGES . 'cln_resumes/' . $jobDet['id'] . '_' . $jobDet['resume'];?>">Download Attached Resume</a><?php
+			}?>
 		</div>
 	</div>
 	<table class="front_list" cellpadding="0" cellspacing="0">

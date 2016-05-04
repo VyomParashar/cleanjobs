@@ -22,7 +22,7 @@
 		}?>
 	</div>
 </div>
-<form id="qs_form" action="<?php echo $appObj->appUrl(array('section' => $curUser['comp'], 'action' => 'job', 'vars' => array('var1' => $jobDet['token'])))?>" method="post">
+<form id="qs_form" target="resultInFrame" action="<?php echo $appObj->appUrl(array('section' => $curUser['comp'], 'action' => 'job', 'vars' => array('var1' => $jobDet['token'])))?>" method="post" enctype="multipart/form-data">
 <div class="jb_form_cont apply_box">
 	<div class="j_title">STEP 1: Your Contact Information</div>
 	<div class="apply_box_inn" style="max-width:445px;margin:0 auto;">
@@ -134,6 +134,12 @@
 			}
 		}
 		?>
+        <div class="ff_row">
+			<label>Attach Resume <?php if($jobDet['q_res_req'] == 1 || trim($jobDet['q_res_best']) ==''){ echo '(Optional)';} ?></label>
+			<div class="q_ans">
+            	<input type="file" name="resume" />
+            </div>
+		</div>
 		<div class="ff_row" style="padding:20px 0;">
 			<input type="submit" class="sub_butt" value="Submit" />
 			<input type="hidden" name="job_apply" value="yes" />
@@ -149,6 +155,17 @@
 </div>
 </form>
 <script type="text/javascript">
+function processDataRes(data)
+{
+	jQuery('#mask').hide();
+	if(typeof(data.fine)!='undefined' && data.fine > 0)
+	{
+		jQuery('.jb_form_cont_nxt').hide();
+		jQuery('.thnk_you').show();
+	}
+	else
+		alert(data.error);
+}
 function chkCntrySt(cntry)
 {
 	if(cntry == 'United States')
@@ -228,29 +245,18 @@ jQuery(document).ready(function(e) {
 			return false;
 		
 		jQuery('#mask').show();
-		setTimeout(function(){
-				jQuery('#mask,.jb_form_cont_nxt').hide();
-				jQuery('.thnk_you').show();
-			}, 2000);
-		jQuery.ajax({
+		/*jQuery.ajax({
 			type:jQuery(this).attr('method'),
 			url:jQuery(this).attr('action'),
 			dataType:'json',
 			data:jQuery(this).serialize(),
 			success:function(data)
 			{
-				jQuery('#mask').hide();
-				if(typeof(data.fine)!='undefined' && data.fine > 0)
-				{
-					jQuery('.jb_form_cont_nxt').hide();
-					jQuery('.thnk_you').show();
-				}
-				else
-					alert(data.error);
+				
 			}
-		});
+		});*/
 		
-		return false;
+		//return false;
 	});
 	jQuery('.ff_row').click(function(e) {
 		jQuery(this).children('label').removeAttr('style');

@@ -124,6 +124,9 @@ class account extends main
 		$toSave = array(
 				'title' => $this->pdata['title'],
 				'j_desc' => $this->pdata['desc'],
+				'q_res_req' => $this->pdata['q_res_req'],
+				'q_res_best' => $this->pdata['q_res_best'],
+				'q_res_screen' => $this->pdata['q_res_screen'],
 				'u_id' => $this->readSession('front_id')
 			);
 		if($this->pdata['job_id'] > 0)

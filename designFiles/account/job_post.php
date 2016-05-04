@@ -136,6 +136,12 @@ if($jobDet['id'] <= 0){?><br />
 				</tr><?php
 					$cnt++;
 				}?>
+                <tr>
+                <td class="q">Attach resume</td>
+                <td><input type="checkbox" class="req_chk" <?php if($jobDet['q_res_req'] == 1 || trim($jobDet['q_res_best']) ==''){echo 'checked';}?> name="q_res_req" value="1" /></td>
+                <td><select name="q_res_best"><option <?php if(trim($jobDet['q_res_best']) == 'Resume Attached'){echo 'selected';}?> value="Resume Attached">Resume Attached</option><option <?php if(trim($jobDet['q_res_best']) == 'No Resume Attached'){echo 'selected';}?> value="No Resume Attached">No Resume Attached</option></select></td>
+                <td><select name="q_res_screen"><option value="">Don't Screen</option><option value="Resume Attached" <?php if(trim($jobDet['q_res_screen']) == 'Resume Attached'){echo 'selected';}?>>Resume Attached</option><option value="No Resume Attached" <?php if(trim($jobDet['q_res_screen']) == 'No Resume Attached'){echo 'selected';}?>>No Resume Attached</option></select></td>
+                </tr>
 			</tbody>
 		</table><?php
 			if($jobDet['id'] <= 0)

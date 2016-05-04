@@ -54,8 +54,9 @@ footer.front .footer_inner .fright ul li a{color:#fff;text-decoration:none;font-
 h1.home_page_title{color:#fff;font-size:3.6em;text-align:center;margin-bottom:25px;}
 strong.home_sub_title{text-align:center;color:#fff;display:block;font-size:1.3em;}
 .home_email{margin:0 auto;margin-top:40px;max-width:800px;position:relative;box-sizing:border-box;padding:40px;}
-.home_email input[type=email]{width:414px;padding:7px 25px;outline:none;border-radius:16px;border:0;}
+.home_email input[type=email]{width:360px;padding:7px 25px;outline:none;border-radius:16px;border:0;font-size: 1.4em;}
 .home_email input[type=submit],.sub_butt{outline:none;cursor:pointer;background-color:#5CC560;border:0;color:#fff;padding:7px 30px;margin-left:6px;font-weight:bold;font-size:14px;border-radius:15px;text-decoration:none;}
+.home_email input[type=submit]{font-size: 1.4em;}
 .errMsg{color:#F00;display:none;}
 .reg_email_sucess{color:#fff;display:none;}
 .ftrans_h1{color:#fff;font-weight:normal;font-size:33px;}
@@ -488,7 +489,12 @@ body.front.homePage footer.front{text-align:center;}
 font-weight: normal;
 margin: 10px 0;}
 .home_boxs_cont .boxs.right .txt{float:left;padding-left:0;padding-right:6%;}
-
+body.front.homePage .errMsg{background: #ef4136;
+color: #fff;
+width: 100%;
+padding: 11px;
+box-sizing: border-box;
+margin-bottom: 12px;}
 
 @media screen and (max-width: 720px){
 .apply_job_cnt .job_title{font-size:2em;}
@@ -530,14 +536,16 @@ padding-top: 20px;}
 .home_boxs_cont .boxs{width: 96%;margin: 0 auto;}
 .home_boxs_cont .boxs .img{width: 100%;}
 .home_boxs_cont .boxs .txt, .home_boxs_cont .boxs.right .txt{width: 100%;float: none;}
-.home_boxs_cont h1.home_page_title{font-size: 2.4em;}
+h1.home_page_title{font-size: 2.4em;}
+.home_boxs_cont{padding-top:75px;}
 }
 @media screen and (max-width: 520px){
 .apply_box_inn .ff_row label{font-size:1em;}
 .apply_box_inn .ff_row input[type=text],.apply_box_inn .ff_row input[type=password], .apply_box_inn .ff_row input[type=email], .apply_box_inn .ff_row input[type=tel], .apply_box_inn .ff_row select{padding: 3px 10px;font-size: 0.9em;}
 .home_boxs_cont .boxs .txt{font-size: 1em;}
-.home_boxs_cont h1.home_page_title{font-size: 2.1em;}
+h1.home_page_title{font-size: 2.1em;}
 .homePage .bdy_bck_front{height:970px;}
+.home_boxs_cont{padding-top:75px;}
 }
 
 

@@ -27,6 +27,7 @@ class comp extends main
 	{
 		$token = $this->gdata['var1'];
 		$jobDet = $this->db->getRow($this->db->tables->jobs, 'where token="'.$this->addSlashesINP($token).'"');
+		$resumeFile = 'No Resume Attached';
 		
 		if($jobDet['id'] > 0)
 		{
@@ -61,7 +62,31 @@ class comp extends main
 			{
 				$toRet['error'] = 'Please provide time to call you.';
 			}
-			else
+			if(is_uploaded_file($_FILES['resume']['tmp_name']))
+			{
+				$allowedExtensions = array('doc','docx','pdf','txt');
+				$resumeExt = strtolower(end(explode(".", $_FILES['resume']['name'])));
+				if(in_array($resumeExt, $allowedExtensions))
+				{
+					if($_FILES['resume']['size'] <= 2097152)
+					{
+						$resumeFile = 'Resume Attached';
+					}
+					else
+					{
+						$toRet['error'] = 'Resume size must be less than 2MB.';
+					}
+				}
+				else
+				{
+					$toRet['error'] = 'Only doc, docx, pdf, txt extensions are allowed for resume.';
+				}
+			}
+			else if($jobDet['q_res_req'] != 1 && trim($jobDet['q_res_best']) != '')
+			{
+				$toRet['error'] = 'Please upload resume.';
+			}
+			if(trim($toRet['error']) == '')
 			{
 				$toSave = array(
 						'job_id' => $jobDet['id'],
@@ -76,13 +101,23 @@ class comp extends main
 						'status' => 1,
 						'created' => date('Y-m-d H:i:s')
 					);
+				if($resumeFile == 'Resume Attached')
+				{
+					$toSave['resume'] = md5(time() . $toSave['email'] . SEC_SALT) . $resumeExt;
+				}
 				$this->db->insertData($this->db->tables->applicants, $toSave);
 				$app_id = $this->db->lastid();
 				$status = 1;
 				$per_fit = 0;
+				
+				if($resumeFile == 'Resume Attached')
+				{
+					$fileName = $app_id.'_'.$toSave['resume'];
+					move_uploaded_file($_FILES["resume"]["tmp_name"], WEB_ROOT.'multimedias/images/cln_resumes/'.$fileName);
+				}
+				$totalMatch = $totalQus = 0;
 				if(is_array($this->pdata['qus']) && count($this->pdata['qus']) > 0)
 				{
-					$totalMatch = $totalQus = 0;
 					foreach($this->pdata['qus'] as $idx => $curQus)
 					{
 						$totalQus++;
@@ -107,8 +142,18 @@ class comp extends main
 							);
 						$this->db->insertData($this->db->tables->applicantsQus, $toSave);
 					}
-					$per_fit = round(($totalMatch / $totalQus) * 100);
 				}
+				
+				/* resume check start */
+				$totalQus++;
+				if($resumeFile == $jobDet['q_res_screen'])
+					$status = 0;
+				if($resumeFile == $jobDet['q_res_best'])
+					$totalMatch++;
+				/* resume check end */
+				
+				$per_fit = round(($totalMatch / $totalQus) * 100);
+				
 				$blockChk = $this->db->cntRows($this->db->tables->blockedApplicants,'u_id = "' . $jobDet['u_id'] . '" and email="'.$this->addSlashesINP($this->pdata['c_email']).'"');
 				if($blockChk > 0)
 					$status = 0;
@@ -126,6 +171,9 @@ class comp extends main
 				$mail->AddAddress($this->pdata['c_email']);
 				$mail->Subject = 'Application submitted - CleanSimpleJobs';
 				$mail->Body = $this->get_email_content('application_conf', $email_data);
+				
+				if($resumeFile == 'Resume Attached')
+					$mail->AddAttachment(WEB_ROOT.'multimedias/images/cln_resumes/'.$fileName, $fileName);
 
 				$mail->Send();
 				$userDet = $this->db->getRow($this->db->tables->users, 'where id="' . $jobDet['u_id'] . '"');
@@ -144,12 +192,19 @@ class comp extends main
 					$mail->AddAddress($userDet['email']);
 					$mail->Subject = 'New ' . $jobDet['title'] . ' Application - ' . ucwords($this->pdata['f_name']) . ' ' . $per_fit . ' Fit';
 					$mail->Body = $this->get_email_content('applicant', $email_data);
+					
+					if($resumeFile == 'Resume Attached')
+						$mail->AddAttachment(WEB_ROOT.'multimedias/images/cln_resumes/'.$fileName, $fileName);
 	
 					$mail->Send();
 				}
 				$toRet['fine'] = 1;
-			}
-			json_encode($toRet);
+			}?>
+            <script type="text/javascript">
+				var toRes = <?php echo json_encode($toRet);?>;
+				window.parent.processDataRes(toRes);
+			</script>
+            <?php
 			exit;
 		}
 		else
